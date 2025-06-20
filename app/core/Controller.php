@@ -1,5 +1,6 @@
 <?php
 
+// Middle between Model and View
 class Controller {
     
     public function model ($model) {
