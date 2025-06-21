@@ -1,20 +1,30 @@
-    <?php require_once 'app/views/templates/headerPublic.php' ?>
+<?php require_once 'app/views/templates/headerPublic.php'?>
+<main role="main" class="container">
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Create an Account</h1>
+            </div>
+        </div>
+    </div>
 
-    <main role="main" class="container">
-        <?php if (isset($error) && !empty($error)): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
-        <?php endif; ?>
-        <h1>Create an Account</h1>
-        <form action="/create" method="post">
-            <label>Username:</label>
-            <input type="text" name="username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required>
-            <br><br>
-            <label>Password:</label>
-            <input type="password" name="password" required>
-            <br><br>
-            <button type="submit" name="action" value="Submit Registration">Submit Registration</button>
-        </form>
+<div class="row">
+    <div class="col-sm-auto">
+        <form action="/create" method="post" >
+        <fieldset>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input required type="text" class="form-control" name="username" value="<?php echo htmlspecialchars($username ?? ''); ?>">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input required type="password" class="form-control" name="password">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary" name="action" value="Submit Registration">Create Account</button>
+        </fieldset>
+        </form> 
         <p>Already have an account? <a href="/login">Login here</a></p>
-    </main>
-
+    </div>
+</div>
     <?php require_once 'app/views/templates/footer.php' ?>
