@@ -9,7 +9,7 @@ class Create extends Controller {
             exit();
         }
 
-        $error    = '';
+        $error = '';
         $username = '';
 
         $action = filter_input(INPUT_POST, 'action');

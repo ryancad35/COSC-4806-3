@@ -1,7 +1,7 @@
     <?php require_once 'app/views/templates/headerPublic.php' ?>
 
     <main role="main" class="container">
-        <?php if (!empty($error)): ?>
+        <?php if (isset($error) && !empty($error)): ?>
             <p><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
         <h1>Create an Account</h1>
