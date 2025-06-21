@@ -6,7 +6,23 @@ class Login extends Controller {
 		// Retrieve any login error from session and pass to view
 		$error = $_SESSION['loginError'] ?? '';
 		unset($_SESSION['loginError']);
-		$this->view('login/index', ['error' => $error]);
+
+		// Lockout check: after 3 failed attempts, lockout for 60 seconds
+		$locked = false;
+		if (isset($_SESSION['failedAttempts'], $_SESSION['firstFailTime']) && $_SESSION['failedAttempts'] >= 3) {
+			$currentTime = time();
+			$timeDiff = $currentTime - $_SESSION['firstFailTime'];
+			if ($timeDiff < 60) {
+				$locked = true;
+			} else {
+				unset($_SESSION['failedAttempts'], $_SESSION['firstFailTime']);
+			}
+		}
+
+		$this->view('login/index', [
+			'error'  => $error,
+			'locked' => $locked
+		]);
 	}
 
 	public function verify() {
@@ -41,7 +57,11 @@ class Login extends Controller {
 				$_SESSION['failedAttempts'] = 1;
 				$_SESSION['firstFailTime'] = time();
 			}
-			$_SESSION['loginError'] = 'Username and password cannot be empty.';
+			if ($_SESSION['failedAttempts'] >= 3) {
+				$_SESSION['loginError'] = 'Too many attempts. Please wait 60 seconds before trying again.';
+			} else {
+				$_SESSION['loginError'] = 'Username and password cannot be empty.';
+			}
 			header('Location: /login');
 			exit;
 		}
@@ -76,7 +96,11 @@ class Login extends Controller {
 				$_SESSION['failedAttempts'] = 1;
 				$_SESSION['firstFailTime'] = time();
 			}
-			$_SESSION['loginError'] = 'Invalid credentials.';
+			if ($_SESSION['failedAttempts'] >= 3) {
+				$_SESSION['loginError'] = 'Too many attempts. Please wait 60 seconds before trying again.';
+			} else {
+				$_SESSION['loginError'] = 'Invalid credentials.';
+			}
 			header('Location: /login');
 			exit;
 		}
