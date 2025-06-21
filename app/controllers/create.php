@@ -43,17 +43,21 @@ class Create extends Controller {
                     // Username does not exist, create new user
                     $newUserId = $userObj->create_user($username, $password);
                     if ($newUserId) {
-                        // header('Location: loginSuccess.php');
-                        header('Location: /login');
-                        exit();
+                        // Instead of redirecting immediately, set success message
+                        $success = 'Account successfully created! <a href="/login">Click here to login</a>.';
+                        // Clear username so form is empty
+                        $username = '';
+                    } else {
+                        $error = 'An error occurred while creating your account. Please try again.';
+                    }
                     }
                 }  
             }
-        }
 
         $this->view('create/index', [
             'error' => $error,
-            'username' => $username
+            'username' => $username,
+            'success' => $success ?? ''
         ]);
     }
 }
