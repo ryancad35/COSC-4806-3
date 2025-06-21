@@ -1,5 +1,8 @@
 <?php require_once 'app/views/templates/headerPublic.php'?>
 <main role="main" class="container">
+	<?php if (!empty($error)): ?>
+		<div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+	<?php endif; ?>
     <div class="page-header" id="banner">
         <div class="row">
             <div class="col-lg-12">

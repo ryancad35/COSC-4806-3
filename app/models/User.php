@@ -84,4 +84,16 @@ class User {
     public function notEmptyAccount($username, $password) {
         return !empty($username) && !empty($password);
     }
+
+    public function logLoginAttempt($username, $status) {
+        $db = db_connect();
+        $sql = "
+            INSERT INTO login_logs (attempted_username, attempt)
+            VALUES (:username, :attempt)
+        ";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+        $stmt->bindValue(':attempt', $status, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }
