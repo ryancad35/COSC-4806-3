@@ -4,6 +4,7 @@
         <?php if (!empty($error)): ?>
             <p><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
+        <h1>Create an Account</h1>
         <form action="/create" method="post">
             <label>Username:</label>
             <input type="text" name="username" value="<?php echo htmlspecialchars($username ?? ''); ?>" required>
